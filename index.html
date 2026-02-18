@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Junior Security Analyst</title>
+
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <div class="title">Junior Security Analyst</div>
+        <div class="subtitle">Job-Ready Checklist Trainer (Offline + Online)</div>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="pill" id="netPill">Offline</span>
+      <button class="ghost" id="installBtn" hidden>Install</button>
+      <button class="ghost" id="resetBtn" title="Reset progress">Reset</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="nav">
+      <button class="navBtn active" data-view="dashboard">Dashboard</button>
+      <button class="navBtn" data-view="modules">Modules</button>
+      <button class="navBtn" data-view="flashcards">Flashcards</button>
+      <button class="navBtn" data-view="quiz">Quiz</button>
+      <button class="navBtn" data-view="labs">Guided Labs</button>
+      <button class="navBtn" data-view="ask">Ask (Offline/Online)</button>
+      <div class="navFoot">Customize content in <code>data.js</code></div>
+    </nav>
+
+    <main class="main">
+      <!-- Dashboard -->
+      <section class="view" id="view-dashboard">
+        <div class="card">
+          <div class="row wrap">
+            <div class="grow">
+              <h2>Entry-Level Job-Ready Checklist</h2>
+              <div class="muted">Track your progress. Complete lessons, labs, and a short quiz.</div>
+            </div>
+            <div class="stats">
+              <div class="stat">
+                <div class="num" id="statDone">0/7</div>
+                <div class="lbl">Skills completed</div>
+              </div>
+              <div class="stat">
+                <div class="num" id="statLessons">0</div>
+                <div class="lbl">Lessons done</div>
+              </div>
+              <div class="stat">
+                <div class="num" id="statAccuracy">0%</div>
+                <div class="lbl">Quiz accuracy</div>
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div id="checklist"></div>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <h2>Recommended path</h2>
+            <ol class="path" id="path"></ol>
+          </div>
+          <div class="card">
+            <h2>What you’ll be able to do</h2>
+            <ul class="bullets" id="roleBullets"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modules -->
+      <section class="view hidden" id="view-modules">
+        <div class="card">
+          <div class="row wrap">
+            <div class="grow">
+              <h2>Modules</h2>
+              <div class="muted">Choose a skill → complete lessons → mark done.</div>
+            </div>
+            <input class="input" id="search" placeholder="Search (logs, phishing, wireshark, vuln, report, automate, lifecycle)..." />
+          </div>
+        </div>
+
+        <div class="moduleGrid" id="moduleGrid"></div>
+
+        <div class="card hidden" id="lessonCard">
+          <div class="row wrap">
+            <div class="grow">
+              <h2 id="lessonTitle"></h2>
+              <div class="muted" id="lessonMeta"></div>
+            </div>
+            <button class="ghost" id="prevLesson">← Prev</button>
+            <button class="ghost" id="nextLesson">Next →</button>
+          </div>
+          <div class="divider"></div>
+          <div class="lessonBody" id="lessonBody"></div>
+          <div class="divider"></div>
+          <div class="row wrap">
+            <label class="check">
+              <input type="checkbox" id="lessonDone" />
+              Mark lesson completed
+            </label>
+            <button class="ghost" id="copyBtn">Copy notes</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Flashcards -->
+      <section class="view hidden" id="view-flashcards">
+        <div class="card">
+          <div class="row wrap">
+            <div class="grow">
+              <h2>Flashcards</h2>
+              <div class="muted">Tap card to flip. Great for interviews.</div>
+            </div>
+            <select class="input" id="deckSelect"></select>
+            <button class="primary" id="newCard">New card</button>
+          </div>
+        </div>
+
+        <div class="card cardBig" id="cardBox" tabindex="0" role="button">
+          <div class="cardFace" id="cardFront"></div>
+          <div class="divider"></div>
+          <div class="cardFace muted" id="cardBack"></div>
+        </div>
+      </section>
+
+      <!-- Quiz -->
+      <section class="view hidden" id="view-quiz">
+        <div class="card">
+          <div class="row wrap">
+            <div class="grow">
+              <h2>Quiz</h2>
+              <div class="muted">Short scenario questions based on the 7 job-ready skills.</div>
+            </div>
+            <button class="primary" id="startQuiz">Start</button>
+          </div>
+          <div class="divider"></div>
+          <div id="quizBox" class="hidden">
+            <div class="muted" id="quizMeta"></div>
+            <h3 id="qText"></h3>
+            <div id="qChoices" class="choices"></div>
+            <div class="row wrap">
+              <button class="ghost" id="quitQuiz">Quit</button>
+              <button class="primary" id="nextQ">Next</button>
+            </div>
+            <div class="note" id="qExplain"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Labs -->
+      <section class="view hidden" id="view-labs">
+        <div class="card">
+          <h2>Guided Labs</h2>
+          <div class="muted">Step-by-step practice. Mark each lab complete when done.</div>
+        </div>
+        <div id="labList"></div>
+      </section>
+
+      <!-- Ask -->
+      <section class="view hidden" id="view-ask">
+        <div class="card">
+          <h2>Ask (Offline/Online)</h2>
+          <div class="muted">
+            Offline: searches your module notes.
+            Online: can call your own endpoint (optional).
+          </div>
+          <div class="divider"></div>
+
+          <label class="check">
+            <input type="checkbox" id="useOnline" />
+            Use online answering when available
+          </label>
+
+          <div class="row wrap">
+            <input class="input grow" id="askInput" placeholder="Ask a SOC question (e.g., ‘How do I explain an alert?’)..." />
+            <button class="primary" id="askBtn">Ask</button>
+          </div>
+
+          <div class="divider"></div>
+          <div class="answer" id="answerBox"></div>
+
+          <div class="note">
+            Online mode is designed to call <code>/api/ask</code> (your server). See notes in <code>app.js</code>.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
