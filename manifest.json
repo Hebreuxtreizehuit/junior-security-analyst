@@ -1,6 +1,6 @@
 {
   "name": "Junior Security Analyst",
-  "short_name": "JSA Trainer",
+  "short_name": "JSATraining",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

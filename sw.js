@@ -1,4 +1,4 @@
-const CACHE = "jsa-training-v3";
+const CACHE = "jsatraining-v3";
 const ASSETS = [
   "./",
   "./index.html",
